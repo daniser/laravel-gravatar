@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace LaravelGravatar;
 
+use Exception;
 use Gravatar\Image as GravatarImage;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 
@@ -34,6 +37,52 @@ class Image extends GravatarImage
         $this->applyPreset();
 
         return parent::url();
+    }
+
+    /**
+     * Convert the Gravatar image to base64 encoded string.
+     *
+     * @param  int  $timeout  HTTP request timeout in seconds
+     * @return string|null Base64 encoded image data URL or null on failure
+     */
+    public function toBase64(int $timeout = 5): ?string
+    {
+        $url = null;
+
+        try {
+            // Apply preset before building URL
+            $this->applyPreset();
+
+            // Get the Gravatar URL
+            $url = parent::url();
+
+            // Download the image
+            $response = Http::timeout($timeout)->get($url);
+
+            if ($response->successful()) {
+                $imageData = $response->body();
+
+                // Gravatar always returns PNG images
+                return 'data:image/png;base64,'.base64_encode($imageData);
+            }
+
+            // Log warning for unsuccessful response
+            Log::warning('Gravatar request unsuccessful', [
+                'email' => $this->getEmail(),
+                'url' => $url,
+                'status' => $response->status(),
+            ]);
+
+            return null;
+        } catch (Exception $exception) {
+            Log::warning('Failed to convert Gravatar to base64', [
+                'email' => $this->getEmail(),
+                'url' => $url,
+                'error' => $exception->getMessage(),
+            ]);
+
+            return null;
+        }
     }
 
     /**
@@ -91,7 +140,7 @@ class Image extends GravatarImage
                 );
             }
 
-            if (\strlen($k) === 1) {
+            if (\strlen((string) $k) === 1) {
                 $this->{$k}($v);
             } else {
                 $this->{Str::camel($k)}($v);

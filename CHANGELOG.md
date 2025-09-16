@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+4.2.0 (2025-09-16)
+------------------
+
+- Added ability to convert the Gravatar image to a base64-encoded data URL
+
+
 4.1.0 (2025-03-18)
 ------------------
 

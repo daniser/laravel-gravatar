@@ -31,10 +31,10 @@ return RectorConfig::configure()
     ])
 
     // Up from PHP X.x to 8.2
-    // ->withPhpSets()
+    ->withPhpSets()
 
     // only PHP 8.2
-    ->withPhpSets(php82: true)
+    // ->withPhpSets(php82: true)
 
     ->withSkip([
         // Désactivation de cette règle car elle

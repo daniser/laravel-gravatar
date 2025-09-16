@@ -36,6 +36,7 @@ Index
     - [Force to always use the default image](#force-to-always-use-the-default-image)
     - [Combine them](#combine-them)
 - [Image presets](#image-presets)
+- [Convert to Base64](#convert-to-base64)
 - [Casts](#casts)
 
 
@@ -436,6 +437,30 @@ $gravatarImage->setPreset('small');
 $gravatarImage = gravatar($email);
 $gravatarImage->preset('small');
 ```
+
+[Back to top ^](#gravatar-for-laravel)
+
+
+Convert to Base64
+-----------------
+
+You can convert the Gravatar image to a base64-encoded data URL. This is useful when you want to embed the image directly in HTML or CSS, or when you need to store the image data instead of using an external URL.
+
+```php
+$avatar = gravatar('email@example.com');
+$base64 = $avatar->toBase64();
+// Returns: data:image/png;base64,iVBORw0KGgoAAAANS...
+
+// With custom timeout (default is 5 seconds)
+$base64 = $avatar->toBase64(timeout: 10);
+
+// Use it directly in HTML
+echo '<img src="'.$base64.'" alt="Avatar">';
+```
+
+**Note:** Gravatar always returns PNG images regardless of the extension specified in the URL.
+
+The method returns `null` if the image cannot be fetched (network error, invalid response, etc.). Failed attempts are logged for debugging purposes.
 
 [Back to top ^](#gravatar-for-laravel)
 
