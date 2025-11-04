@@ -10,7 +10,10 @@ class Gravatar
         private readonly array $config,
     ) {}
 
-    public static function create()
+    /**
+     * @return $this
+     */
+    public static function create(): static
     {
         return app()->make('gravatar');
     }

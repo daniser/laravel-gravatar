@@ -8,10 +8,8 @@ class Gravatar extends Facade
 {
     /**
      * The facade accessor string.
-     *
-     * @return string
      */
-    protected static function getFacadeAccessor()
+    protected static function getFacadeAccessor(): string
     {
         return 'gravatar';
     }
