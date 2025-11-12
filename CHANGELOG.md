@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+4.2.1 (2025-11-12)
+------------------
+
+- Stricter typings for return values + Facade docblock
+
+
 4.2.0 (2025-09-16)
 ------------------
 
