@@ -20,9 +20,7 @@ class Image extends GravatarImage
         ?string $email = null,
         ?string $presetName = null,
     ) {
-        if ($email !== null) {
-            $this->setEmail($email);
-        }
+        parent::__construct($email);
 
         if ($presetName !== null) {
             $this->setPreset($presetName);
@@ -87,8 +85,10 @@ class Image extends GravatarImage
 
     /**
      * Get or set the preset name to be used.
+     *
+     * @return $this|string|null
      */
-    public function preset(?string $presetName = null): self|string|null
+    public function preset(?string $presetName = null): static|string|null
     {
         if ($presetName === null) {
             return $this->getPreset();
@@ -107,8 +107,10 @@ class Image extends GravatarImage
 
     /**
      * Set the preset name to be used.
+     *
+     * @return $this
      */
-    public function setPreset(?string $presetName): self
+    public function setPreset(?string $presetName): static
     {
         $this->presetName = $presetName;
 
@@ -118,9 +120,11 @@ class Image extends GravatarImage
     /**
      * Apply preset to Gravatar image.
      *
+     * @return $this
+     *
      * @throws InvalidArgumentException
      */
-    private function applyPreset(): Image
+    private function applyPreset(): static
     {
         if ($this->presetName === null) {
             return $this;

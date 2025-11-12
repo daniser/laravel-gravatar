@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Gravatar\Image;
 use Illuminate\Container\Container;
 use LaravelGravatar\Gravatar;
+use LaravelGravatar\Image;
 
 if (! function_exists('gravatar')) {
     function gravatar(?string $email = null, ?string $presetName = null): Gravatar|Image
